@@ -10,7 +10,7 @@ class ChatScreen extends StatelessWidget {
             .collection('chats')
             .doc('FGOoCk0JsfH0oSVlgHuJ')
             .collection('messages')
-            .snapshots(), // 컬레션 호출 가능
+            .snapshots(), // 컬렉션 호출 가능
         builder: (ctx, streamSnapshot) {
           if (streamSnapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -30,7 +30,13 @@ class ChatScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          FirebaseFirestore.instance
+              .collection('chats')
+              .doc('FGOoCk0JsfH0oSVlgHuJ')
+              .collection('messages')
+              .add({'text': 'This was added by clicking the button!'});
+        },
       ),
     );
   }
