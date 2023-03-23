@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
-  //const AuthForm({super.key});
+  //const AuthForm();
 
-  const AuthForm(this.submitFn, {super.key}); // add const, {super.key}
+  const AuthForm(
+    this.submitFn,
+    this.isLoading,
+  ); // add const
 
+  final bool isLoading;
   final void Function(
     String email,
     String password,
@@ -101,28 +105,31 @@ class _AuthFormState extends State<AuthForm> {
                     },
                   ),
                   const SizedBox(height: 12), // add const
-                  ElevatedButton(
-                    // RaisedButton -> ElevatedButton
-                    onPressed: _trySubmit,
-                    child: Text(_isLogin ? 'Login' : 'Signup'), // 윗줄이랑 위치 변경
-                  ),
-                  TextButton(
-                    // FlatButton -> TextButton
-                    style: TextButton.styleFrom(
-                      //primary: Theme.of(context).primaryColor, // 글자색
-                      textStyle: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                      ),
+                  if (widget.isLoading) CircularProgressIndicator(),
+                  if (!widget.isLoading)
+                    ElevatedButton(
+                      // RaisedButton -> ElevatedButton
+                      onPressed: _trySubmit,
+                      child: Text(_isLogin ? 'Login' : 'Signup'), // 윗줄이랑 위치 변경
                     ),
-                    child: Text(_isLogin
-                        ? 'Create new account'
-                        : 'I already have an account'),
-                    onPressed: () {
-                      setState(() {
-                        _isLogin = !_isLogin;
-                      });
-                    },
-                  )
+                  if (!widget.isLoading)
+                    TextButton(
+                      // FlatButton -> TextButton
+                      onPressed: () {
+                        setState(() {
+                          _isLogin = !_isLogin;
+                        });
+                      },
+                      style: TextButton.styleFrom(
+                        //primary: Theme.of(context).primaryColor, // 글자색
+                        textStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                      child: Text(_isLogin
+                          ? 'Create new account'
+                          : 'I already have an account'),
+                    )
                 ],
               ),
             ),
