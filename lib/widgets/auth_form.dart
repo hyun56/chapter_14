@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 class AuthForm extends StatefulWidget {
   //const AuthForm({super.key});
 
-  AuthForm(this.submitFn);
+  const AuthForm(this.submitFn, {super.key}); // add const, {super.key}
 
   final void Function(
     String email,
     String password,
     String username,
     bool isLogin,
-  ) submitFn; // 아무것도 반환하지 않는 함수
+    BuildContext ctx,
+  ) submitFn; // 아무것도 반환하지 않는 함수..?
 
   @override
   State<AuthForm> createState() => _AuthFormState();
@@ -19,7 +20,7 @@ class AuthForm extends StatefulWidget {
 class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
   var _isLogin = true;
-  var _userEmail = '';
+  final _userEmail = ''; // var -> final
   var _userName = '';
   var _userPassword = '';
 
@@ -29,7 +30,8 @@ class _AuthFormState extends State<AuthForm> {
 
     if (isValid) {
       _formKey.currentState!.save; // add !
-      widget.submitFn(_userEmail, _userPassword, _userName, _isLogin);
+      widget.submitFn(_userEmail.trim(), _userPassword.trim(), _userName.trim(),
+          _isLogin, context);
 
       // Use those values to send out auth request ...
     }
@@ -39,17 +41,17 @@ class _AuthFormState extends State<AuthForm> {
   Widget build(BuildContext context) {
     return Center(
       child: Card(
-        margin: EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20), // add const
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16), // add const
             child: Form(
               key: _formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min, // 필요한 만큼만 늘어난다
                 children: <Widget>[
                   TextFormField(
-                    key: ValueKey('email'),
+                    key: const ValueKey('email'), // add const
                     validator: (value) {
                       if (value!.isEmpty || !value.contains('@')) {
                         // add !
@@ -58,7 +60,8 @@ class _AuthFormState extends State<AuthForm> {
                       return null;
                     },
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
+                      // add const
                       labelText: 'Email address',
                     ),
                     onSaved: (value) {
@@ -67,7 +70,7 @@ class _AuthFormState extends State<AuthForm> {
                   ),
                   if (!_isLogin)
                     TextFormField(
-                      key: ValueKey('username'),
+                      key: const ValueKey('username'), // add const
                       validator: (value) {
                         if (value!.isEmpty || value.length < 4) {
                           // add !
@@ -75,13 +78,14 @@ class _AuthFormState extends State<AuthForm> {
                         }
                         return null;
                       },
-                      decoration: InputDecoration(labelText: 'Username'),
+                      decoration: const InputDecoration(
+                          labelText: 'Username'), // add const
                       onSaved: (value) {
                         _userName = value!; // add !
                       },
                     ),
                   TextFormField(
-                    key: ValueKey('password'),
+                    key: const ValueKey('password'), // add const
                     validator: (value) {
                       if (value!.isEmpty || value.length < 7) {
                         // add !
@@ -89,13 +93,14 @@ class _AuthFormState extends State<AuthForm> {
                       }
                       return null;
                     },
-                    decoration: InputDecoration(labelText: 'Password'),
+                    decoration: const InputDecoration(
+                        labelText: 'Password'), // add const
                     obscureText: true, // 사용자가 입력한 텍스트 숨기기
                     onSaved: (value) {
                       _userPassword = value!; // add !
                     },
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12), // add const
                   ElevatedButton(
                     // RaisedButton -> ElevatedButton
                     onPressed: _trySubmit,

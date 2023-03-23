@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.pink,
         )),*/
       ),
-      home: AuthScreen(),
+      home: const AuthScreen(), // add const
     );
   }
 }
