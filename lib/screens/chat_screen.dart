@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:section_14/widgets/chat/messages.dart';
+
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
 
@@ -40,7 +42,7 @@ class ChatScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: StreamBuilder(
+      /*body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('chats')
             .doc('FGOoCk0JsfH0oSVlgHuJ')
@@ -63,6 +65,15 @@ class ChatScreen extends StatelessWidget {
             ),
           );
         },
+      ),*/
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Messages(),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add), // add const

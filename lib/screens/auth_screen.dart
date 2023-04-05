@@ -4,7 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:section_14/widgets/auth_form.dart';
+//import 'package:section_14/widgets/auth_form.dart';
+import 'package:section_14/widgets/auth/auth_form.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -66,9 +67,6 @@ class _AuthScreenState extends State<AuthScreen> {
               .error, // errorColor -> colorScheme.error
         ),
       );
-      setState(() {
-        _isLoading = false;
-      });
     } catch (err) {
       print(err);
       setState(() {
