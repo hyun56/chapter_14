@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'package:flutter/foundation.dart';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,11 +7,6 @@ import 'package:section_14/screens/auth_screen.dart';
 import 'package:section_14/screens/chat_screen.dart';
 
 void main() async {
-  FlutterError.onError = (details) {
-    FlutterError.presentError(details);
-    if (kReleaseMode) exit(1);
-  };
-
   runApp(const MyApp());
   WidgetsFlutterBinding.ensureInitialized;
   await Firebase.initializeApp();
@@ -60,8 +52,8 @@ class MyApp extends StatelessWidget {
           if (userSnapshot.hasData) {
             return ChatScreen();
           }
-          return ChatScreen();
-          //return AuthScreen();
+          // return ChatScreen();
+          return AuthScreen();
         },
       ),
     );
