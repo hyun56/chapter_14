@@ -16,6 +16,7 @@ class AuthForm extends StatefulWidget {
     String email,
     String password,
     String username,
+    File image,
     bool isLogin,
     BuildContext ctx,
   ) submitFn; // 아무것도 반환하지 않는 함수..?
@@ -56,7 +57,7 @@ class _AuthFormState extends State<AuthForm> {
     if (isValid) {
       _formKey.currentState!.save; // add !
       widget.submitFn(_userEmail.trim(), _userPassword.trim(), _userName.trim(),
-          _isLogin, context);
+          _userImageFile, _isLogin, context);
 
       // Use those values to send out auth request ...
     }

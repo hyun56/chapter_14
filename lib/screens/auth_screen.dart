@@ -1,8 +1,11 @@
 // 사용자가 채팅하기 전에 로그인하는 화면
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 //import 'package:section_14/widgets/auth_form.dart';
 import 'package:section_14/widgets/auth/auth_form.dart';
@@ -22,6 +25,7 @@ class _AuthScreenState extends State<AuthScreen> {
     String email,
     String password,
     String username,
+    File image,
     bool isLogin,
     BuildContext ctx,
   ) async {
@@ -42,6 +46,14 @@ class _AuthScreenState extends State<AuthScreen> {
           email: email,
           password: password,
         );
+
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child('user_image')
+            .child(authResult.user!.uid + '.jpg'); // add !
+
+        await ref.putFile(image);
+
         await FirebaseFirestore.instance // Firestore -> FirebaseFirestore
             .collection('users')
             .doc(authResult.user!.uid) // document -> doc, add !
