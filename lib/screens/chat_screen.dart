@@ -1,12 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:section_14/widgets/chat/messages.dart';
 import 'package:section_14/widgets/chat/new_message.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
+
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  @override
+  void initState() {
+    final fbm = FirebaseMessaging
+        .instance; // FirebaseMessaging -> FirebaseMessaging.instance
+    // fbm.requestPermission();
+    fbm.requestPermission(alert: true, announcement: false, sound: true);
+
+    /* fbm.configure(onMessage: (msg) {
+      // configure가 없어짐.. https://firebase.flutter.dev/docs/migration/
+      print(msg);
+      return;
+    }, onResume: (msg) {
+      print(msg);
+      return;
+    }); */
+
+    FirebaseMessaging.onMessage.listen((msg) {
+      print(msg);
+      return;
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((msg) {
+      print(msg);
+      return;
+    });
+
+    fbm.subscribeToTopic('chat');
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +50,7 @@ class ChatScreen extends StatelessWidget {
         title: Text('FlutterChat'),
         actions: [
           DropdownButton(
+            underline: Container(),
             icon: Icon(
               Icons.more_vert,
               color: Theme.of(context).primaryIconTheme.color,
